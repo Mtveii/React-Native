@@ -15,6 +15,7 @@ export default function AppContent() {
 
     const navigate = (route:IRoute):void => {
         if(route.slug == "-1") {
+            //console.log(`history: =${history.length}`);
             if(history.length > 0) {
                 const prevPage = history.pop();
                 setPage(prevPage!);
@@ -22,6 +23,7 @@ export default function AppContent() {
             }
             else {
                 BackHandler.exitApp();
+                //console.log("Exit App");
             }
         }
         else if(route.slug != page.slug) {
@@ -35,6 +37,7 @@ export default function AppContent() {
     useEffect(() => {
         const handler = BackHandler.addEventListener(
             'hardwareBackPress', () => {
+                //console.log("Back Pressed");
                 navigate({slug: '-1'});
                 return true;
             });
@@ -45,7 +48,11 @@ export default function AppContent() {
 
     return <View style={AppContentStyle.container}>
         <View style={AppContentStyle.topBar}>
-            <View style={AppContentStyle.topBarIcon}></View>
+            <View style={AppContentStyle.topBarIcon}>
+                <TouchableOpacity onPress={() => navigate({slug: '-1'})}>
+                    <Text style={AppContentStyle.topBarBack}>{"<"}</Text>
+                </TouchableOpacity> 
+            </View>
             <Text style={AppContentStyle.topBarTitle}>Mobile-P33</Text>
             <View style={AppContentStyle.topBarIcon}></View>
         </View>

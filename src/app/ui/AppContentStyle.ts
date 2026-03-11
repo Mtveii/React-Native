@@ -1,5 +1,6 @@
 import { StyleSheet } from "react-native";
 import Colors from "../../features/config/Colors";
+// import { Color } from "react-native";
 
 const AppContentStyle = StyleSheet.create({
     container: {
@@ -19,10 +20,18 @@ const AppContentStyle = StyleSheet.create({
         alignItems: "center",
     },
     topBarIcon: {
-        backgroundColor: "#bbb",
+        backgroundColor: "#bbbbbb00",
         height: 42.0,
         marginHorizontal: 10.0,
         width: 42.0,
+    },
+    topBarBack: {
+        fontSize: 38.0,
+        color: Colors.primaryTextColor,
+        marginLeft: 8.0,   
+        marginTop: -6.0,       
+        // lineHeight: 1.2,
+        
     },
     topBarTitle: {
         color: Colors.primaryTextColor,
@@ -53,6 +62,7 @@ const AppContentStyle = StyleSheet.create({
         height: 42.0,
         width: 42.0,
     },
+
 });
 
 export default AppContentStyle;
