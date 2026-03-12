@@ -1,6 +1,5 @@
 import { StyleSheet } from "react-native";
 import Colors from "../../features/config/Colors";
-// import { Color } from "react-native";
 
 const AppContentStyle = StyleSheet.create({
     container: {
@@ -19,19 +18,18 @@ const AppContentStyle = StyleSheet.create({
         justifyContent: "space-between",
         alignItems: "center",
     },
+    topBarBack: {
+        fontSize: 28.0,
+        color: Colors.primaryTextColor,
+        fontWeight: 700,
+        marginLeft: 2.0,
+        // marginTop: -2.0,
+    },
     topBarIcon: {
-        backgroundColor: "#bbbbbb00",
+        backgroundColor: "#bbb",
         height: 42.0,
         marginHorizontal: 10.0,
         width: 42.0,
-    },
-    topBarBack: {
-        fontSize: 38.0,
-        color: Colors.primaryTextColor,
-        marginLeft: 8.0,   
-        marginTop: -6.0,       
-        // lineHeight: 1.2,
-        
     },
     topBarTitle: {
         color: Colors.primaryTextColor,
@@ -62,7 +60,6 @@ const AppContentStyle = StyleSheet.create({
         height: 42.0,
         width: 42.0,
     },
-
 });
 
 export default AppContentStyle;

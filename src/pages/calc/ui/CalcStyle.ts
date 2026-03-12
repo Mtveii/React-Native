@@ -1,56 +1,53 @@
-import { Keyboard, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import Colors from "../../../features/config/Colors";
 
 const CalcStyle = StyleSheet.create({
     pageContainer: {
         flex: 1,
         backgroundColor: "#1B2125",
-        width : "100%",
+        width: "100%",
     },
     pageTitle: {
         fontWeight: 600,
         color: Colors.primaryTextColor,
     },
-    KeyBoard: {
+    expression: {
+        color: "#A5AABD",
+        fontSize: 20.0,
+        textAlign: "right",
+        marginRight: 10.0,
+        marginTop: 10.0,
+    },
+    result: {
+        color: "#F7FFFF",
+        // fontSize: 60.0,
+        textAlign: "right",
+        marginRight: 10.0,
+        marginVertical: 15.0,
+    },
+    memoryRow: {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "flex-end",
+        backgroundColor: "#333",
+        paddingVertical: 10.0,
+    },
+    keyboard: {
         flex: 1,
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
         gap: 4.0,
-        marginHorizontal: 4.0,
+        marginHorizontal: 6.0,
         marginVertical: 8.0,
-    },  
-    buttonRow: {
+    },
+    buttonsRow: {
         flex: 1,
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-around",
-        gap: 5.0,
-        marginHorizontal: 4.0,
+        gap: 4.0,
     },
-    expretion:{
-        color: "#A5AABD",
-        fontSize: 20,
-        textAlign: "right",
-        marginRight:10.0,
-        marginTop: 10.0,
-
-    },
-    result: {
-        color:"#F7FFFF",
-        fontSize:60,
-        textAlign: "right",
-        marginRight:10.0,
-        marginBottom: 10.0,
-    },
-    memoryRow:{
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "flex-end",
-        backgroundColor : "#333",
-        paddingHorizontal: 10.0,
-    }
-
 });
 
 export default CalcStyle;

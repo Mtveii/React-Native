@@ -1,56 +1,59 @@
-import { TouchableOpacity } from "react-native";
-import { StyleSheet } from "react-native";
-import { Text } from "react-native";
-import { CalcButtonTypes } from "../model/CalcButtonTupes";
+import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import { CalcButtonTypes } from "../model/CalcButtonTypes";
 
-export default function CalcButton({buttonType, text} : 
-    {buttonType?: CalcButtonTypes, text?: string}) {
+export default function CalcButton({buttonType, text, onPress} :
+    {buttonType?: CalcButtonTypes, text: string, onPress?: (text:string) => void}
+) {
+    const containerStyle = 
+        buttonType == CalcButtonTypes.digit ? CalcButtonStyle.digitContainer
+      : buttonType == CalcButtonTypes.equal ? CalcButtonStyle.equalContainer
+      : CalcButtonStyle.funcContainer;
 
-    const containerStyle =
-         buttonType === CalcButtonTypes.digit ? [CalcButtonStyle.container, CalcButtonStyle.digitContainer] 
-        :buttonType === CalcButtonTypes.equal ? [CalcButtonStyle.container, CalcButtonStyle.equalContainer] 
-        :CalcButtonStyle.functionContainer; 
+    const textStyle = 
+        buttonType == CalcButtonTypes.digit ? CalcButtonStyle.digitText
+      : buttonType == CalcButtonTypes.equal ? CalcButtonStyle.equalText
+      : CalcButtonStyle.funcText;
 
-    const textStyle =
-         buttonType === CalcButtonTypes.digit ? [CalcButtonStyle.text, CalcButtonStyle.digitText] 
-        :buttonType === CalcButtonTypes.equal ? [CalcButtonStyle.text, CalcButtonStyle.equalText] 
-        :CalcButtonStyle.functionText; 
-
-    return <TouchableOpacity style ={[CalcButtonStyle.container, containerStyle]}>
+    return <TouchableOpacity style={[CalcButtonStyle.container, containerStyle]} 
+                onPress={() => { if(onPress) onPress(text) }}>
         <Text style={[CalcButtonStyle.text, textStyle]}>{text}</Text>
     </TouchableOpacity>;
 }
 
 const CalcButtonStyle = StyleSheet.create({
     container: {
-        backgroundColor: "#2C333E",
-        borderRadius: 6.0,
+        borderRadius: 5.0,
         flex: 1,
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-
     },
     digitContainer: {
-        backgroundColor :"#353A4E",
+        backgroundColor: "#353A4E",
     },
-    functionContainer: {
-        backgroundColor :"#2C333E",
+    funcContainer: {
+        backgroundColor: "#2C333E",
     },
     equalContainer: {
-        backgroundColor :"#4CC3FE",
+        backgroundColor: "#4CC3FE",
     },
     text: {
-        color: "#D3DBE2",
+        fontSize: 28.0,
     },
     digitText: {
         color: "#D3DBE2",
     },
-    functionText: {
-        color: "#AAAA",
+    funcText: {
+        color: "#AAA",
     },
     equalText: {
         color: "#333",
-    }
-    
+    },
 });
+/*
+Д.З. Кнопки управління памяттю калькулятора (MC MR M+ M- MS Mv)
+- створити перелік (на базі константного об'єкту) MemoryButtonTypes.{enabled, disabled}
+- створити компонент (TSX) - кнопку, що дозволяє зазначати тип та вмість (текст)
+- розмістити кнопки, зазначити їх активність
+Не забувати скріншоти
+*/
