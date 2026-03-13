@@ -10,85 +10,86 @@ const dotSymbol = ",";
 const minusSymbol = "\u2212";
 
 interface ICalcState {
-    expression: string,
-    result: string,
-    isNeedClear: boolean,
-    operation?: CalcOperations,
-    prevArgument?: number,
-    isNeedClearEntry: boolean,
-};
-``
-const initCalcState:ICalcState = {
+    expression: string;
+    result: string;
+    isNeedClear: boolean;
+    operation?: CalcOperations;
+    prevArgument?: number;
+    isNeedClearEntry: boolean;
+}
+
+const initCalcState: ICalcState = {
     expression: "",
     result: "0",
     isNeedClear: true,
     isNeedClearEntry: false,
-}
+};
 
 export default function Calc() {
     const [calcState, setCalcState] = useState<ICalcState>(initCalcState);
 
-    const equalClick =() =>{
-        if (!calcState.operation)return;
-        setCalcState({...calcState,
-            result: numToRes(
-                calcState.operation == CalcOperations.add ?calcState.prevArgument! + resToNum(calcState.result):
-                calcState.operation == CalcOperations.sub ?calcState.prevArgument! - resToNum(calcState.result):
-                calcState.operation == CalcOperations.mul ?calcState.prevArgument! * resToNum(calcState.result):
-                calcState.operation == CalcOperations.div ?calcState.prevArgument! / resToNum(calcState.result):
-                -1
-            ),
+    const resToNum = (res: string): number => {
+        return Number(res.replace(dotSymbol, ".").replace(minusSymbol, "-"));
+    };
+
+    const numToRes = (num: number): string => {
+        return num.toString().replace(".", dotSymbol).replace("-", minusSymbol);
+    };
+
+    const equalClick = () => {
+        if (!calcState.operation) return;
+
+        const current = resToNum(calcState.result);
+        const prev = calcState.prevArgument ?? 0;
+
+        const result =
+            calcState.operation === CalcOperations.add
+                ? prev + current
+                : calcState.operation === CalcOperations.sub
+                ? prev - current
+                : calcState.operation === CalcOperations.mul
+                ? prev * current
+                : calcState.operation === CalcOperations.div
+                ? prev / current
+                : current;
+
+        setCalcState({
+            ...calcState,
+            result: numToRes(result),
             expression: `${calcState.expression} ${calcState.result} =`,
             operation: undefined,
             prevArgument: undefined,
             isNeedClear: true,
-        })
-    }
+        });
+    };
 
-    const operButtonClick = (oper:CalcOperations, face:string)=>{
-        setCalcState({...calcState,
+    const operButtonClick = (oper: CalcOperations, face: string) => {
+        setCalcState({
+            ...calcState,
             operation: oper,
             expression: `${calcState.result} ${face}`,
             prevArgument: resToNum(calcState.result),
             isNeedClearEntry: true,
-        })
-    }
-    const resToNum = (res:string):number => { 
-        return Number(res
-            .replace(dotSymbol, '.')
-            .replace(minusSymbol, '-')
-        );
-    };
-
-    const numToRes = (num:number):string => {
-        return num.toString()
-            .replace('.', dotSymbol)
-            .replace('-', minusSymbol);
-    };
-
-    const invClick = () => {
-        let arg = resToNum(calcState.result);
-        arg = 1.0 / arg;
-        setCalcState({...calcState,
-            result: numToRes(arg),
-            expression: `1 / ${calcState.result} =`,
-            isNeedClear: true
         });
     };
 
-    const digitClick = (text:string) => {
+    const digitClick = (text: string) => {
         let res = calcState.result;
-        if(res == '0' || calcState.isNeedClear || calcState.isNeedClearEntry) {
-            res = '';
+
+        if (res === "0" || calcState.isNeedClear || calcState.isNeedClearEntry) {
+            res = "";
         }
-        if(res.length < maxDigits + (res.includes(dotSymbol) ? 1 : 0)) {
+
+        if (res.length < maxDigits + (res.includes(dotSymbol) ? 1 : 0)) {
             res += text;
         }
-        setCalcState({...calcState,
+
+        setCalcState({
+            ...calcState,
             result: res,
             expression: calcState.isNeedClear ? "" : calcState.expression,
             isNeedClear: false,
-            isNeedClearEntry:false,
+            isNeedClearEntry: false,
         });
     };
 
@@ -97,104 +98,138 @@ export default function Calc() {
     };
 
     const clearEntryClick = () => {
-       setCalcState({...calcState,
+        setCalcState({
+            ...calcState,
             result: "0",
-       });
+        });
     };
 
     const backspaceClick = () => {
-        // відкорегувати на залишок символа "-" (він не повинен залишатись сам)
         let len = calcState.result.length;
         let res = len > 1 ? calcState.result.substring(0, len - 1) : "0";
-        if(res == minusSymbol) {
-            res = '0';
-        }
-        setCalcState({...calcState,
-            result: res,
-       });
-    }
 
-    const dotClick = (text:string) => {   // десятична точка: додається в кінець АЛЕ якщо її немає раніше
-        if(!calcState.result.includes(text)) {
-            setCalcState({...calcState,
+        if (res === minusSymbol) {
+            res = "0";
+        }
+
+        setCalcState({
+            ...calcState,
+            result: res,
+        });
+    };
+
+    const dotClick = (text: string) => {
+        if (!calcState.result.includes(text)) {
+            setCalcState({
+                ...calcState,
                 result: calcState.result + text,
             });
         }
     };
 
-    const pmClick = () => {   // зміна знаку: додається "-" до початку числа, якщо його немає, інакше прибирається
-        if(calcState.result == '0') return;
-        let res = calcState.result.startsWith(minusSymbol)
-        ? calcState.result.substring(1)
-        : minusSymbol + calcState.result;
+    const invClick = () => {
+        let arg = resToNum(calcState.result);
+        arg = 1 / arg;
 
-        setCalcState({...calcState,
+        setCalcState({
+            ...calcState,
+            result: numToRes(arg),
+            expression: `1 / ${calcState.result} =`,
+            isNeedClear: true,
+        });
+    };
+
+    const pmClick = () => {
+        if (calcState.result === "0") return;
+
+        const res = calcState.result.startsWith(minusSymbol)
+            ? calcState.result.substring(1)
+            : minusSymbol + calcState.result;
+
+        setCalcState({
+            ...calcState,
             result: res,
         });
     };
 
-    const resultFontSize = calcState.result.length <= 11 ? 60.0 : 660.0 / calcState.result.length;
+    const resultFontSize =
+        calcState.result.length <= 11 ? 60 : 660 / calcState.result.length;
 
-    return <View style={CalcStyle.pageContainer}>
-        <Text style={CalcStyle.pageTitle}>Calculator</Text>
-        <Text style={CalcStyle.expression}>{calcState.expression}</Text>
-        <Text style={[CalcStyle.result, {fontSize: resultFontSize}]}>{calcState.result}</Text>
-        <View style={CalcStyle.memoryRow}>
-            <Text>Memory buttons</Text>
-        </View>
+    return (
+        <View style={CalcStyle.pageContainer}>
+            <Text style={CalcStyle.pageTitle}>Calculator</Text>
+            <Text style={CalcStyle.expression}>{calcState.expression}</Text>
+            <Text style={[CalcStyle.result, { fontSize: resultFontSize }]}>
+                {calcState.result}
+            </Text>
 
-        <View style={CalcStyle.keyboard}>
-            <View style={CalcStyle.buttonsRow}>
-                <CalcButton text="%" onPress={() => console.log("Press")}/>
-                <CalcButton text="CE" onPress={clearEntryClick} />
-                <CalcButton text="C" onPress={clearClick} />
-                <CalcButton text={"\u232B"} onPress={backspaceClick}/>
+            <View style={CalcStyle.memoryRow}>
+                <Text>Memory buttons</Text>
             </View>
-             <View style={CalcStyle.buttonsRow}>
-                <CalcButton text={"\u00b9/\u2093"} onPress={invClick}/>
-                <CalcButton text={"x\u00b2"} />
-                <CalcButton text={"\u00B2\u221ax\u0305"} />
-                <CalcButton text={"\u00F7"} onPress={(face)=> operButtonClick(CalcOperations.div, face)}/>
-            </View>
-             <View style={CalcStyle.buttonsRow}>
-                <CalcButton text="7" buttonType={CalcButtonTypes.digit} onPress={digitClick} />
-                <CalcButton text="8" buttonType={CalcButtonTypes.digit} onPress={digitClick} />
-                <CalcButton text="9" buttonType={CalcButtonTypes.digit} onPress={digitClick} />
-                <CalcButton text={"\u00D7"} onPress={(face)=> operButtonClick(CalcOperations.mul, face)}/>
-            </View>
-             <View style={CalcStyle.buttonsRow}>
-                <CalcButton text="4" buttonType={CalcButtonTypes.digit} onPress={digitClick} />
-                <CalcButton text="5" buttonType={CalcButtonTypes.digit} onPress={digitClick} />
-                <CalcButton text="6" buttonType={CalcButtonTypes.digit} onPress={digitClick} />
-                <CalcButton text={"\u2212"} onPress={(face)=> operButtonClick(CalcOperations.sub, face)}/>
-            </View>
-             <View style={CalcStyle.buttonsRow}>
-                <CalcButton text="1" buttonType={CalcButtonTypes.digit} onPress={digitClick} />
-                <CalcButton text="2" buttonType={CalcButtonTypes.digit} onPress={digitClick} />
-                <CalcButton text="3" buttonType={CalcButtonTypes.digit} onPress={digitClick} />
-                <CalcButton text={"\uFF0B"} onPress={(face)=> operButtonClick(CalcOperations.add, face)}/>
-            </View>
-             <View style={CalcStyle.buttonsRow}>
-                <CalcButton text={"\u207a\u2215\u208b"} buttonType={CalcButtonTypes.digit} onPress={pmClick} />
-                <CalcButton text="0" buttonType={CalcButtonTypes.digit} onPress={digitClick} />
-                <CalcButton text={dotSymbol} buttonType={CalcButtonTypes.digit} onPress={dotClick}/>
-                <CalcButton text={"\uFF1D"} buttonType={CalcButtonTypes.equal} onPress={equalClick}/>
+
+            <View style={CalcStyle.keyboard}>
+                <View style={CalcStyle.buttonsRow}>
+                    <CalcButton text="%" onPress={() => console.log("Press")} />
+                    <CalcButton text="CE" onPress={clearEntryClick} />
+                    <CalcButton text="C" onPress={clearClick} />
+                    <CalcButton text="\u232B" onPress={backspaceClick} />
+                </View>
+
+                <View style={CalcStyle.buttonsRow}>
+                    <CalcButton text="\u00b9/\u2093" onPress={invClick} />
+                    <CalcButton text={"x\u00b2"} />
+                    <CalcButton text="\u00B2\u221ax\u0305" />
+                    <CalcButton
+                        text="\u00F7"
+                        onPress={(face: string) =>
+                            operButtonClick(CalcOperations.div, face)
+                        }
+                    />
+                </View>
+
+                <View style={CalcStyle.buttonsRow}>
+                    <CalcButton text="7" buttonType={CalcButtonTypes.digit} onPress={digitClick} />
+                    <CalcButton text="8" buttonType={CalcButtonTypes.digit} onPress={digitClick} />
+                    <CalcButton text="9" buttonType={CalcButtonTypes.digit} onPress={digitClick} />
+                    <CalcButton
+                        text="\u00D7"
+                        onPress={(face: string) =>
+                            operButtonClick(CalcOperations.mul, face)
+                        }
+                    />
+                </View>
+
+                <View style={CalcStyle.buttonsRow}>
+                    <CalcButton text="4" buttonType={CalcButtonTypes.digit} onPress={digitClick} />
+                    <CalcButton text="5" buttonType={CalcButtonTypes.digit} onPress={digitClick} />
+                    <CalcButton text="6" buttonType={CalcButtonTypes.digit} onPress={digitClick} />
+                    <CalcButton
+                        text="\u2212"
+                        onPress={(face: string) =>
+                            operButtonClick(CalcOperations.sub, face)
+                        }
+                    />
+                </View>
+
+                <View style={CalcStyle.buttonsRow}>
+                    <CalcButton text="1" buttonType={CalcButtonTypes.digit} onPress={digitClick} />
+                    <CalcButton text="2" buttonType={CalcButtonTypes.digit} onPress={digitClick} />
+                    <CalcButton text="3" buttonType={CalcButtonTypes.digit} onPress={digitClick} />
+                    <CalcButton
+                        text="\uFF0B"
+                        onPress={(face: string) =>
+                            operButtonClick(CalcOperations.add, face)
+                        }
+                    />
+                </View>
+
+                <View style={CalcStyle.buttonsRow}>
+                    <CalcButton text="\u207a\u2215\u208b" buttonType={CalcButtonTypes.digit} onPress={pmClick} />
+                    <CalcButton text="0" buttonType={CalcButtonTypes.digit} onPress={digitClick} />
+                    <CalcButton text={dotSymbol} buttonType={CalcButtonTypes.digit} onPress={dotClick} />
+                    <CalcButton text="\uFF1D" buttonType={CalcButtonTypes.equal} onPress={equalClick} />
+                </View>
             </View>
         </View>
-    </View>;
+    );
 }
-/*
-Д.З. Врахувати в обмеженні на кількість цифр на дисплеї
-той факт, що знак числа ("-") не належить до цифр. 
-Відповідно, за наявності знаку гранична кількість 
-символів фактично збільшується. 
-Так само символ точки (коми) не враховується в 
-обмеженні кількості цифр. 
-** забезпечити розділення розрядів числа пробілами
-    (Юнікод - короткими пробілами), їх так само не
-    враховувати в кількості цифр: 12 345 567.2
-    (переконатись, що при стиранні цифр пробіли переставляються)
-str = "Hello, World!"
-str.substring(2) - "llo, World!"
-str.substring(3,7) - "lo, "
-*/
