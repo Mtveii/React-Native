@@ -86,7 +86,8 @@ export default function Calc() {
         if(res == '0' || calcState.isNeedClear || calcState.isNeedClearEntry) {
             res = '';
         }
-        if(res.length < maxDigits + (res.includes(dotSymbol) ? 1 : 0)) {
+        let digitCount = res.replace(/[^0-9]/g, '').length;
+        if(digitCount < maxDigits) {
             res += text;
         }
         setCalcState({...calcState,
