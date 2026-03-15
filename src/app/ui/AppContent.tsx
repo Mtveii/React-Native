@@ -4,7 +4,7 @@ import Home from "../../pages/home/Home";
 import { useEffect, useState } from "react";
 import IRoute from "../../features/model/IRoute";
 import Calc from "../../pages/calc/Calc";
-
+import Not_Found from "../../features/model/Not Found";
 const startPage:IRoute = {
     slug: 'home',
 };
@@ -62,7 +62,8 @@ export default function AppContent() {
         <View style={AppContentStyle.pageWidget}>
             { page.slug == "home" ? <Home />
             : page.slug == "calc" ? <Calc />
-            : <Text>Not Found</Text>
+            : page.slug == "" ? <Not_Found />
+            : <Not_Found />
             }
         </View>
 
