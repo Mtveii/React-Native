@@ -2,10 +2,62 @@ import { StyleSheet } from "react-native";
 import Colors from "../../../features/config/Colors";
 
 const CalcStyle = StyleSheet.create({
+    displayLand: {
+        flex: 1,
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+    },
+    keyboardLand: {
+        flex: 3,
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        gap: 4.0,
+        // marginHorizontal: 8.0,
+        // marginVertical: 2.0,
+    },
+    buttonsRowLand: {
+        flex: 1,
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        gap: 4.0,
+    },
+    displayLeftLand: {
+        flex: 1,
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+    },
+    resultLand: {
+        flex: 1,
+        // backgroundColor: "#282828",
+        color: "#F7FFFF",
+        textAlign: "right",
+        marginRight: 10.0,
+    },
+
     pageContainer: {
         flex: 1,
         backgroundColor: "#1B2125",
         width: "100%",
+    },
+    display: {
+        flex: 1,
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+    },
+    keyboard: {
+        flex: 4,
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        gap: 4.0,
+        marginHorizontal: 6.0,
+        marginVertical: 8.0,
     },
     pageTitle: {
         fontWeight: 600,
@@ -20,7 +72,6 @@ const CalcStyle = StyleSheet.create({
     },
     result: {
         color: "#F7FFFF",
-        // fontSize: 60.0,
         textAlign: "right",
         marginRight: 10.0,
         marginVertical: 15.0,
@@ -32,20 +83,11 @@ const CalcStyle = StyleSheet.create({
         backgroundColor: "#333",
         paddingVertical: 10.0,
     },
-    keyboard: {
-        flex: 1,
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-between",
-        gap: 4.0,
-        marginHorizontal: 6.0,
-        marginVertical: 8.0,
-    },
     buttonsRow: {
         flex: 1,
         display: "flex",
         flexDirection: "row",
-        justifyContent: "space-around",
+        justifyContent: "space-between",
         gap: 4.0,
     },
 });

@@ -1,4 +1,4 @@
-import { BackHandler, Image, Text, TouchableOpacity, View } from "react-native";
+import { BackHandler, Image, Text, TouchableOpacity, useWindowDimensions, View } from "react-native";
 import AppContentStyle from "./AppContentStyle";
 import Home from "../../pages/home/Home";
 import { useEffect, useState } from "react";
@@ -10,6 +10,7 @@ const startPage:IRoute = {
 };
 
 export default function AppContent() {
+    const {width, height} = useWindowDimensions();
     const [history, setHistory] = useState<Array<IRoute>>([]);
     const [page, setPage] = useState<IRoute>(startPage);
 
@@ -35,6 +36,7 @@ export default function AppContent() {
     };
 
     useEffect(() => {
+        console.log(history);
         const handler = BackHandler.addEventListener(
             'hardwareBackPress', () => {
                 // console.log("back press");
@@ -44,51 +46,49 @@ export default function AppContent() {
         return () => handler.remove();    
     }, [history]);
 
-    useEffect(() => {console.log(history)}, [history]);
-
     return <View style={AppContentStyle.container}>
-        <View style={AppContentStyle.topBar}>
-            <TouchableOpacity onPress={() => navigate({slug: '-1'})}>
-                <Text style={AppContentStyle.topBarBack}>
-                    〈
-                </Text>    
-            </TouchableOpacity>
-            <Text style={AppContentStyle.topBarTitle}>Mobile-P33</Text>
-            <View style={AppContentStyle.topBarIcon}></View>
-        </View>
+        { width < height && 
+            <View style={AppContentStyle.topBar}>
+                <TouchableOpacity onPress={() => navigate({slug: '-1'})}>
+                    <Text style={AppContentStyle.topBarBack}>
+                        〈
+                    </Text>    
+                </TouchableOpacity>
+                <Text style={AppContentStyle.topBarTitle}>Mobile-P33</Text>
+                <View style={AppContentStyle.topBarIcon}></View>
+            </View>
+        }
 
         <View style={AppContentStyle.pageWidget}>
             { page.slug == "home" ? <Home />
             : page.slug == "calc" ? <Calc />
             : <Text>Not Found</Text>
             }
-        </View>        
-
-        <View style={AppContentStyle.bottomBar}>
-            <TouchableOpacity onPress={() => navigate({slug: 'home'})}>
-                <Image style={AppContentStyle.bottomBarIcon} 
-                    source={require('../asset/home.png')}/>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigate({slug: 'calc'})}>
-                <Image style={AppContentStyle.bottomBarIcon} 
-                    source={require('../asset/calc.png')}/>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigate({slug: 'home'})}>
-                <Image style={AppContentStyle.bottomBarIcon} 
-                    source={require('../asset/home.png')}/>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigate({slug: 'calc'})}>
-                <Image style={AppContentStyle.bottomBarIcon} 
-                    source={require('../asset/calc.png')}/>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigate({slug: 'home'})}>
-                <Image style={AppContentStyle.bottomBarIcon} 
-                    source={require('../asset/home.png')}/>
-            </TouchableOpacity>
         </View>
+
+        { width < height && 
+            <View style={AppContentStyle.bottomBar}>
+                <TouchableOpacity onPress={() => navigate({slug: 'home'})}>
+                    <Image style={AppContentStyle.bottomBarIcon} 
+                        source={require('../asset/home.png')}/>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => navigate({slug: 'calc'})}>
+                    <Image style={AppContentStyle.bottomBarIcon} 
+                        source={require('../asset/calc.png')}/>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => navigate({slug: 'home'})}>
+                    <Image style={AppContentStyle.bottomBarIcon} 
+                        source={require('../asset/home.png')}/>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => navigate({slug: 'calc'})}>
+                    <Image style={AppContentStyle.bottomBarIcon} 
+                        source={require('../asset/calc.png')}/>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => navigate({slug: 'home'})}>
+                    <Image style={AppContentStyle.bottomBarIcon} 
+                        source={require('../asset/home.png')}/>
+                </TouchableOpacity>
+            </View>
+        }
     </View>;
 }
-/*
-Д.З. Створити сторінку "404", додати кнопку меню, що імітує
-перехід на неіснуючу сторінку. 
-*/
