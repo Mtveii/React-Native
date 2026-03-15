@@ -2,7 +2,9 @@ export const CalcOperations = {
   add: "add",
   sub: "sub",
   div: "div",
-  mul: "mul"
+  mul: "mul",
+  pow: "pow",
+  sqrt: "sqrt",
 } as const;
 
 export type CalcOperations = 
