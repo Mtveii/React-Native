@@ -1,8 +1,8 @@
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import AppContent from "./ui/AppContent";
 import AppStyle from "./ui/AppStyle";
-import "../../shared/extensions/date"
-import "../../shared/extensions/number"
+import "../shared/extensions/date"
+import "../shared/extensions/number"
 export default function App() {
     
     return <SafeAreaProvider>

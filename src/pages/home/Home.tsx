@@ -21,6 +21,12 @@ export default function Home() {
                 style={HomeStyle.navImage}/>
             <Text style={HomeStyle.navText}>Канкулятор</Text>
         </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigate({slug: 'anim'})}>
+            <Image 
+                source = {require('../../features/asset/rate.png')}
+                style={HomeStyle.navImage}/>
+            <Text style={HomeStyle.navText}>anim</Text>
+        </TouchableOpacity>
         
     </View>;
 }
