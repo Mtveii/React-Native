@@ -6,27 +6,37 @@ import { AppContext } from "../../features/context/AppContext";
 export default function Home() {
     const {navigate} = useContext(AppContext);
 
-
     return <View style={HomeStyle.pageContainer}>
         <Text style={HomeStyle.pageTitle}>React Native</Text>
-        <TouchableOpacity onPress={() => navigate({slug: 'calc'})}>
+
+        <TouchableOpacity 
+            style={HomeStyle.navItem} 
+            onPress={() => navigate({slug: 'calc'})}>
             <Image 
-                source = {require('../../features/asset/calc.png')}
+                source={require('../../features/asset/calc.png')}
                 style={HomeStyle.navImage}/>
-            <Text style={HomeStyle.navText}>Канкулятор</Text>
+            <Text 
+                style={HomeStyle.navText}>Калькулятор</Text>
         </TouchableOpacity>
-                <TouchableOpacity onPress={() => navigate({slug: 'rate'})}>
+
+        <TouchableOpacity 
+            style={HomeStyle.navItem} 
+            onPress={() => navigate({slug: 'rate'})}>
             <Image 
-                source = {require('../../features/asset/rate.png')}
+                source={require('../../features/asset/rate.png')}
                 style={HomeStyle.navImage}/>
-            <Text style={HomeStyle.navText}>Канкулятор</Text>
+            <Text 
+                style={HomeStyle.navText}>Курс валют НБУ</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigate({slug: 'anim'})}>
+
+        <TouchableOpacity 
+            style={HomeStyle.navItem} 
+            onPress={() => navigate({slug: 'anim'})}>
             <Image 
-                source = {require('../../features/asset/rate.png')}
+                source={require('../../features/asset/rate.png')}
                 style={HomeStyle.navImage}/>
-            <Text style={HomeStyle.navText}>anim</Text>
+            <Text 
+                style={HomeStyle.navText}>Анімації</Text>
         </TouchableOpacity>
-        
     </View>;
 }
