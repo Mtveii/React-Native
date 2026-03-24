@@ -10,7 +10,7 @@ const AnimStyle = StyleSheet.create({
         width: "100%"
 
     },
-    tittle:{
+    title:{
         color: Colors.primaryTextColor,
         textAlign: "center",
     },
@@ -38,7 +38,7 @@ const AnimStyle = StyleSheet.create({
         minHeight: 100.0,
         marginVertical: 10.0,
     },
-    subtittle:{
+    subtitle:{
         color: Colors.primaryTextColor,
         textAlign: "center",
     }
