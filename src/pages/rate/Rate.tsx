@@ -19,13 +19,19 @@ export default function Rate() {
         NbuRateApi.getCurrentRates().then(setRates);
     }, []);
 
-    useEffect(() => {
-        if(search.length > 0){
-            setShownRates(rates.filter(r => r.cc.includes));
-        }else {
-            setShownRates(rates);
-        }
-    }, [search]);
+useEffect(() => {
+    if (search.length > 0) {
+        // Добавляем вызов .includes(search) и приведение к регистру
+        setShownRates(
+            rates.filter(r => 
+                r.cc.toLowerCase().includes(search.toLowerCase()) || 
+                r.txt.toLowerCase().includes(search.toLowerCase())
+            )
+        );
+    } else {
+        setShownRates(rates);
+    }
+}, [search, rates]); // Добавили rates в зависимости
 
     return <View style={RateStyle.pageContainer}>
 
