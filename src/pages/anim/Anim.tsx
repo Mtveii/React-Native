@@ -152,7 +152,7 @@ export default function Anim() {
     let q = true
     const fin1Press = () => {
         Animated.timing(fin1Value, {
-            q = false,
+            // q = false,
             toValue: 1.5,
             useNativeDriver: true, 
             duration: 900,
@@ -285,4 +285,15 @@ export default function Anim() {
     </View>;
 
 };
+
+
+
+
+
+
+
+
+
+
+
 

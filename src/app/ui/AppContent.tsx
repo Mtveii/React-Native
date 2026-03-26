@@ -8,6 +8,8 @@ import Not_Found from "../../features/model/Not Found";
 import { AppContext } from "../../features/context/AppContext";
 import Rate from "../../pages/rate/Rate";
 import Anim from "../../pages/anim/Anim";
+import Swipe from "../../pages/swipe/Swipe";
+
 const startPage:IRoute = {
     slug: 'home',
 };
@@ -68,6 +70,7 @@ export default function AppContent() {
                 : page.slug == "calc" ? <Calc />
                 : page.slug == "rate" ? <Rate />
                 : page.slug == "anim" ? <Anim />
+                : page.slug == "swipe" ? <Swipe />
                 : page.slug == "" ? <Not_Found />
                 : <Not_Found />
                 }
@@ -91,9 +94,9 @@ export default function AppContent() {
                         <Image style={AppContentStyle.bottomBarIcon} 
                             source={require('../../features/asset/rate.png')}/>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => navigate({slug: 'home'})}>
+                    <TouchableOpacity onPress={() => navigate({slug: 'swipe'})}>
                         <Image style={AppContentStyle.bottomBarIcon} 
-                            source={require('../../features/asset/home.png')}/>
+                            source={require('../../features/asset/swipe.png')}/>
                     </TouchableOpacity>
                 </View>
             }

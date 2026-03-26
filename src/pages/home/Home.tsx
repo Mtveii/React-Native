@@ -38,5 +38,15 @@ export default function Home() {
             <Text 
                 style={HomeStyle.navText}>Анімації</Text>
         </TouchableOpacity>
+
+                <TouchableOpacity 
+            style={HomeStyle.navItem} 
+            onPress={() => navigate({slug: 'swipe'})}>
+            <Image 
+                source={require('../../features/asset/swipe.png')}
+                style={HomeStyle.navImage}/>
+            <Text 
+                style={HomeStyle.navText}>Анімації</Text>
+        </TouchableOpacity>
     </View>;
 }
