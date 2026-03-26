@@ -5,9 +5,6 @@ import { CalcButtonTypes } from "./model/CalcButtonTypes";
 import { useState } from "react";
 import { CalcOperations } from "./model/CalcOperations";
 
-
-
-
 const maxDigits = 20;
 const dotSymbol = ",";
 const minusSymbol = "\u2212";
@@ -28,72 +25,29 @@ const initCalcState:ICalcState = {
     isNeedClearEntry: false,
 }
 
-    export default function Calc() {
-        const [calcState, setCalcState] = useState<ICalcState>(initCalcState);
+export default function Calc() {
+    const [calcState, setCalcState] = useState<ICalcState>(initCalcState);
 
-        // врахування конфігурації: поворот екрану (орієнтація пристрою)
-        const {width, height} = useWindowDimensions();
+    // врахування конфігурації: поворот екрану (орієнтація пристрою)
+    const {width, height} = useWindowDimensions();
 
-        // #region Functions
-    const calculate = () => {
-        if (!calcState.operation) return NaN;
-
-        const current = resToNum(calcState.result);
-        const prev = calcState.prevArgument ?? 0;
-
-        switch (calcState.operation) {
-            case CalcOperations.add: return prev + current;
-            case CalcOperations.sub: return prev - current;
-            case CalcOperations.mul: return prev * current;
-            case CalcOperations.div: return prev / current;
-            case CalcOperations.pow: return Math.pow(prev, current);
-            case CalcOperations.sqrt: return Math.sqrt(prev);
-            default: return NaN;
-        }
-    };
-
-    const unaryOperation = (oper: CalcOperations, symbol: string) => {
-        const current = resToNum(calcState.result);
-        let result = current;
-        let expression = "";
-
-        switch (oper) {
-            case CalcOperations.pow:
-                result = Math.pow(current, 2);
-                expression = `${calcState.result}² =`;
-                break;
-            case CalcOperations.sqrt:
-                result = Math.sqrt(current);
-                expression = `√${calcState.result} =`;
-                break;
-            default:
-                return;
-        }
-
-        setCalcState({
-            ...calcState,
-            result: numToRes(result),
-            expression,
+    // #region Functions
+    const equalClick = () => {
+        if(!calcState.operation) return;
+        setCalcState({...calcState,
+            result: numToRes(
+                calcState.operation == CalcOperations.add ? calcState.prevArgument! + resToNum(calcState.result)
+              : calcState.operation == CalcOperations.sub ? calcState.prevArgument! - resToNum(calcState.result)
+              : calcState.operation == CalcOperations.mul ? calcState.prevArgument! * resToNum(calcState.result)
+              : calcState.operation == CalcOperations.div ? calcState.prevArgument! / resToNum(calcState.result)
+              : NaN
+            ),
+            expression: `${calcState.expression} ${calcState.result} =`,
             operation: undefined,
             prevArgument: undefined,
             isNeedClear: true,
         });
     };
-
-const equalClick = () => {
-    if (!calcState.operation) return;
-
-    const result = calculate();
-
-    setCalcState({
-        ...calcState,
-        result: numToRes(result),
-        expression: `${calcState.expression} ${calcState.result} =`,
-        operation: undefined,
-        prevArgument: undefined,
-        isNeedClear: true,
-    });
-};
  
     const operButtonClick = (oper:CalcOperations, symbol:string) => {
         setCalcState({...calcState,
@@ -132,8 +86,7 @@ const equalClick = () => {
         if(res == '0' || calcState.isNeedClear || calcState.isNeedClearEntry) {
             res = '';
         }
-        let digitCount = res.replace(/[^0-9]/g, '').length;
-        if(digitCount < maxDigits) {
+        if(res.length < maxDigits + (res.includes(dotSymbol) ? 1 : 0)) {
             res += text;
         }
         setCalcState({...calcState,
@@ -221,8 +174,8 @@ const equalClick = () => {
             </View>
              <View style={CalcStyle.buttonsRow}>
                 <CalcButton text={"\u00b9/\u2093"} onPress={invClick}/>
-                <CalcButton text={"x\u00b2"}  onPress={(face) => unaryOperation(CalcOperations.pow, face)}/>
-                <CalcButton text={"\u00B2\u221ax\u0305"}  onPress={(face) => unaryOperation(CalcOperations.sqrt, face)}/>
+                <CalcButton text={"x\u00b2"} />
+                <CalcButton text={"\u00B2\u221ax\u0305"} />
                 <CalcButton text={"\u00F7"} onPress={(face) => operButtonClick(CalcOperations.div, face)} />
             </View>
              <View style={CalcStyle.buttonsRow}>
@@ -257,7 +210,7 @@ const equalClick = () => {
         <View style={CalcStyle.displayLand}>
             <View style={CalcStyle.displayLeftLand}>
                 <Text style={CalcStyle.pageTitle}>Calculator</Text>
-                <Text style={CalcStyle.expression}>{calcState.expression}</Text>
+                <Text style={CalcStyle.expression}>{calcState.expression}{Math.cos(1)}</Text>
                 <View style={CalcStyle.memoryRow}>
                     <Text>Memory buttons</Text>
                 </View>
@@ -283,7 +236,7 @@ const equalClick = () => {
                 <CalcButton text="CE" onPress={clearEntryClick} />
             </View>
             <View style={CalcStyle.buttonsRowLand}>
-                <CalcButton text={"x\u00b2"} onPress={(face) => unaryOperation(CalcOperations.pow, face)} />
+                <CalcButton text={"x\u00b2"} />
                 <CalcButton text="1" buttonType={CalcButtonTypes.digit} onPress={digitClick} />
                 <CalcButton text="2" buttonType={CalcButtonTypes.digit} onPress={digitClick} />
                 <CalcButton text="3" buttonType={CalcButtonTypes.digit} onPress={digitClick} />
@@ -291,7 +244,7 @@ const equalClick = () => {
                 <CalcButton text={"\u232B"} onPress={backspaceClick}/>
             </View>
             <View style={CalcStyle.buttonsRowLand}>
-                <CalcButton text={"\u00B2\u221ax\u0305"} onPress={(face) => unaryOperation(CalcOperations.sqrt, face)} />
+                <CalcButton text={"\u00B2\u221ax\u0305"} />
                 <CalcButton text={"\u207a\u2215\u208b"} buttonType={CalcButtonTypes.digit} onPress={pmClick} />
                 <CalcButton text="0" buttonType={CalcButtonTypes.digit} onPress={digitClick} />
                 <CalcButton text={dotSymbol} buttonType={CalcButtonTypes.digit} onPress={dotClick}/>
@@ -307,3 +260,29 @@ const equalClick = () => {
     return width < height ? PortraitView() : LandscapeView();
 }
 
+/*
+Д.З. Врахувати в обмеженні на кількість цифр на дисплеї
+той факт, що знак числа ("-") не належить до цифр. 
+Відповідно, за наявності знаку гранична кількість 
+символів фактично збільшується. 
+Так само символ точки (коми) не враховується в 
+обмеженні кількості цифр. 
+** забезпечити розділення розрядів числа пробілами
+    (Юнікод - короткими пробілами), їх так само не
+    враховувати в кількості цифр: 12 345 567.2
+    (переконатись, що при стиранні цифр пробіли переставляються)
+str = "Hello, World!"
+str.substring(2) - "llo, World!"
+str.substring(3,7) - "lo, "
+
+Д.З. Реалізувати роботу кнопок калькулятора
+піднесення до квадрату
+корень з числа (з перевіркою на додатню величину)
+Додавати скріншоти
+
+Д.З. Завершити роботу з проєктом "Калькулятор"
+- кнопки тригонометрії в ландшафтній орієнтації та їх робота
+   (у т.ч. контроль аргументів: tan / ctg визначені не для усіх значень)
+- кнопка "%" - обчислення проценту від числа
+   [20] "%" [500] "=" (100)    -- 20% від 500   
+*/
