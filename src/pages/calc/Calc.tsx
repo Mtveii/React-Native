@@ -16,6 +16,7 @@ interface ICalcState {
     operation?: CalcOperations,
     prevArgument?: number,
     isNeedClearEntry: boolean,
+    memory: number
 };
 
 const initCalcState:ICalcState = {
@@ -23,6 +24,7 @@ const initCalcState:ICalcState = {
     result: "0",
     isNeedClear: true,
     isNeedClearEntry: false,
+    memory: 0
 }
 
 export default function Calc() {
@@ -152,10 +154,43 @@ export default function Calc() {
     };
     // #endregion
     
+    // FUNCTIONS (добавка)
+    const mcClick = () => setCalcState({ ...calcState, memory: 0 });
+
+    const mrClick = () => setCalcState({
+        ...calcState,
+        result: numToRes(calcState.memory),
+        isNeedClear: true
+    });
+
+    const mPlusClick = () => setCalcState({
+        ...calcState,
+        memory: calcState.memory + resToNum(calcState.result),
+        isNeedClear: true
+    });
+
+    const mMinusClick = () => setCalcState({
+        ...calcState,
+        memory: calcState.memory - resToNum(calcState.result),
+        isNeedClear: true
+    });
+
+    const msClick = () => setCalcState({
+        ...calcState,
+        memory: resToNum(calcState.result),
+        isNeedClear: true
+    });
+
+    const mvClick = () => setCalcState({
+        ...calcState,
+        expression: `M = ${numToRes(calcState.memory)}`
+    });
+
     const resultFontSize = calcState.result.length <= 11 ? 60.0 : 660.0 / calcState.result.length;
 
     // розмітка при вертикальному положенні пристрою
     const PortraitView = () => <View style={CalcStyle.pageContainer}>
+
         <View style={CalcStyle.display}>
             <Text style={CalcStyle.pageTitle}>Calculator</Text>
             <Text style={CalcStyle.expression}>{calcState.expression}</Text>
@@ -165,6 +200,14 @@ export default function Calc() {
         <View style={CalcStyle.keyboard}>
             <View style={CalcStyle.memoryRow}>
                 <Text>Memory buttons</Text>
+            </View>
+            <View style={CalcStyle.memoryRow}>
+                <CalcButton text="MC" onPress={mcClick} />
+                <CalcButton text="MR" onPress={mrClick} />
+                <CalcButton text="M+" onPress={mPlusClick} />
+                <CalcButton text="M-" onPress={mMinusClick} />
+                <CalcButton text="MS" onPress={msClick} />
+                <CalcButton text="Mv" onPress={mvClick} />
             </View>
             <View style={CalcStyle.buttonsRow}>
                 <CalcButton text="%" onPress={() => console.log("Press")}/>
@@ -207,6 +250,7 @@ export default function Calc() {
 
     // розмітка при горизонтальному положенні пристрою
     const LandscapeView = () => <View style={CalcStyle.pageContainer}>
+
         <View style={CalcStyle.displayLand}>
             <View style={CalcStyle.displayLeftLand}>
                 <Text style={CalcStyle.pageTitle}>Calculator</Text>
@@ -218,7 +262,15 @@ export default function Calc() {
             <Text style={[CalcStyle.resultLand, {fontSize: resultFontSize}]}>{calcState.result}</Text>
         </View>
 
-        <View style={CalcStyle.keyboardLand}>
+        <View style={CalcStyle.keyboardLand}>        
+            <View style={CalcStyle.memoryRow}>
+                <CalcButton text="MC" onPress={mcClick} />
+                <CalcButton text="MR" onPress={mrClick} />
+                <CalcButton text="M+" onPress={mPlusClick} />
+                <CalcButton text="M-" onPress={mMinusClick} />
+                <CalcButton text="MS" onPress={msClick} />
+                <CalcButton text="Mv" onPress={mvClick} />
+            </View>
             <View style={CalcStyle.buttonsRowLand}>
                 <CalcButton text="%" onPress={() => console.log("Press")}/>
                 <CalcButton text="7" buttonType={CalcButtonTypes.digit} onPress={digitClick} />
@@ -260,29 +312,3 @@ export default function Calc() {
     return width < height ? PortraitView() : LandscapeView();
 }
 
-/*
-Д.З. Врахувати в обмеженні на кількість цифр на дисплеї
-той факт, що знак числа ("-") не належить до цифр. 
-Відповідно, за наявності знаку гранична кількість 
-символів фактично збільшується. 
-Так само символ точки (коми) не враховується в 
-обмеженні кількості цифр. 
-** забезпечити розділення розрядів числа пробілами
-    (Юнікод - короткими пробілами), їх так само не
-    враховувати в кількості цифр: 12 345 567.2
-    (переконатись, що при стиранні цифр пробіли переставляються)
-str = "Hello, World!"
-str.substring(2) - "llo, World!"
-str.substring(3,7) - "lo, "
-
-Д.З. Реалізувати роботу кнопок калькулятора
-піднесення до квадрату
-корень з числа (з перевіркою на додатню величину)
-Додавати скріншоти
-
-Д.З. Завершити роботу з проєктом "Калькулятор"
-- кнопки тригонометрії в ландшафтній орієнтації та їх робота
-   (у т.ч. контроль аргументів: tan / ctg визначені не для усіх значень)
-- кнопка "%" - обчислення проценту від числа
-   [20] "%" [500] "=" (100)    -- 20% від 500   
-*/
