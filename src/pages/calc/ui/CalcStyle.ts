@@ -12,11 +12,25 @@ const CalcStyle = StyleSheet.create({
     keyboardLand: {
         flex: 3,
         display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
+        flexDirection: "row",
+        justifyContent: "space-between",
         gap: 4.0,
-        // marginHorizontal: 8.0,
-        // marginVertical: 2.0,
+        paddingHorizontal: 8.0,
+        paddingVertical: 4.0,
+    },
+    sidePanel: {
+        flex: 1,
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        gap: 8.0,
+    },
+    mainPanel: {
+        flex: 3,
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        gap: 4.0,
     },
     buttonsRowLand: {
         flex: 1,
@@ -90,6 +104,7 @@ const CalcStyle = StyleSheet.create({
         justifyContent: "space-between",
         gap: 4.0,
     },
+    
 });
 
 export default CalcStyle;
