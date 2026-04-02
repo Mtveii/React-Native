@@ -149,29 +149,22 @@ export default function Anim() {
             ]).start();
     };
     const fin1Value = useRef(new Animated.Value(1.0)).current;
+    let q = true
     const fin1Press = () => {
-        Animated.sequence([
-            Animated.timing(fin1Value, {
-                toValue: 1.3,
-                duration: 150,
-                useNativeDriver: true,
-            }),
-            Animated.timing(fin1Value, {
-                toValue: 0.85,
-                duration: 180,
-                useNativeDriver: true,
-            }),
-            Animated.timing(fin1Value, {
-                toValue: 1.1,
-                duration: 150,
-                useNativeDriver: true,
-            }),
+        Animated.timing(fin1Value, {
+            // q = false,
+            toValue: 1.5,
+            useNativeDriver: true, 
+            duration: 900,
+        }).start(
+            () => {
             Animated.timing(fin1Value, {
                 toValue: 1.0,
-                duration: 150,
-                useNativeDriver: true,
-            }),
-        ]).start();
+                useNativeDriver: true, 
+                duration: 0,
+            }).start(() => {if (q) {fin1Press}})
+            }
+    );
     };
 
     return <View style={AnimStyle.pageContainer}>
@@ -285,7 +278,7 @@ export default function Anim() {
                     ] }
                     ]}>
                     <View style={AnimStyle.demo}></View>
-                    <Text style={AnimStyle.subtitle}>Рідкий дотик</Text>
+                    <Text style={AnimStyle.subtitle}>фінал</Text>
                 </Animated.View>
             </Pressable>
         </View>

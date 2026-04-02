@@ -15,17 +15,9 @@ export default function Rate() {
     const [open, setOpen] = useState(false)
     const [search, setSeatch] = useState<string>("")
     
-    const formatDate = (date: Date): string => {
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const day = String(date.getDate()).padStart(2, '0');
-        return `${year}${month}${day}`;
-    };
-
     useEffect (() => {
-        const formattedDate = formatDate(date);
-        NbuRateApi.getRatesByDate(formattedDate).then(setRates);
-    }, [date]);
+        NbuRateApi.getCurrentRates().then(setRates);
+    }, []);
 
 useEffect(() => {
     if (search.length > 0) {
