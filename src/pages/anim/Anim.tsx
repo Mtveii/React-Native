@@ -148,23 +148,35 @@ export default function Anim() {
                 })
             ]).start();
     };
-    const fin1Value = useRef(new Animated.Value(1.0)).current;
-    let q = true
+
+
+    const fin1Value = useRef(new Animated.Value(1)).current;
+    const q = useRef(false); // було let q = true
+
     const fin1Press = () => {
+        q.current = !q.current;
+
+        if (q.current) {
+            animate();
+        }
+    };
+
+    const animate = () => {
         Animated.timing(fin1Value, {
-            // q = false,
             toValue: 1.5,
-            useNativeDriver: true, 
             duration: 900,
-        }).start(
-            () => {
+            useNativeDriver: true,
+        }).start(() => {
             Animated.timing(fin1Value, {
-                toValue: 1.0,
-                useNativeDriver: true, 
-                duration: 0,
-            }).start(() => {if (q) {fin1Press}})
-            }
-    );
+                toValue: 1,
+                duration: 900,
+                useNativeDriver: true,
+            }).start(() => {
+                if (q.current) {
+                    animate(); // повтор
+                }
+            });
+        });
     };
 
     return <View style={AnimStyle.pageContainer}>
@@ -269,19 +281,20 @@ export default function Anim() {
                     <Text style={AnimStyle.subtitle}>Змішення з нахилом</Text>
                 </Animated.View>
             </Pressable> 
-
-            <Pressable style={AnimStyle.block} onPress={fin1Press} >
-                <Animated.View style={[
-                    AnimStyle.block,
-                    { transform: [
-                        {scale: fin1Value},
-                    ] }
-                    ]}>
+            <Pressable style={AnimStyle.block} onPress={fin1Press}>
+                <Animated.View
+                    style={[
+                        AnimStyle.block,
+                        { transform: [{ scale: fin1Value }] },
+                    ]}
+                >
                     <View style={AnimStyle.demo}></View>
                     <Text style={AnimStyle.subtitle}>фінал</Text>
                 </Animated.View>
             </Pressable>
         </View>
+
+
     </View>;
 
 };

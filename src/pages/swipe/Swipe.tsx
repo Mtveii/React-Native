@@ -59,13 +59,13 @@ export default function Swipe() {
         field[emptyTileIndex - 4] = 0;
         setField([...field]);
     }
-    const f = ()=>{
-        let emptyTileIndex = field.findIndex(i => i == 0);
+    // const f = ()=>{
+    //     let emptyTileIndex = field.findIndex(i => i == 0);
 
-        if (emptyTileIndex == ){
+    //     if (emptyTileIndex == ){
         
-        }
-    }
+    //     }
+    // }
 
     const onGestureBegin = (event: GestureResponderEvent) => {
         /*
