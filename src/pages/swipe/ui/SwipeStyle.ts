@@ -27,34 +27,76 @@ const SwipeStyle = StyleSheet.create({
         color: Colors.primaryTextColor,
         fontSize: 30.0,
     },
-    tileTextsuccess:{},
-    difficultiContainer:{
-        marginVertical: 10.0,
+    tileTextInPlace: {
+        color: Colors.successTextColor,
+        fontSize: 32.0,
     },
-    difficultiSelector: {
-        backgroundColor: "#555"
+    difficultyContainer: {
+        // marginVertical: 10.0,
     },
-    difficultiRow:{
+    difficultySelector: {
+        backgroundColor: "#555",
+    },
+    difficultyItem: {
+        flex: 1,
+        backgroundColor: "#454545ff",
+        alignItems: "center",
+        justifyContent: "center",
+        margin: 2.0,
+        opacity: 0.5,
+    },
+    difficultyItemSelected: {
         flex: 1,
         backgroundColor: "#333",
         alignItems: "center",
         justifyContent: "center",
         margin: 2.0,
     },
-    difficultItemSelection:{
-        flex: 1,
-        backgroundColor: "#333",
-        alignItems: "center",
-        justifyContent: "center",
-        margin: 1.0,
+    centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
     },
-    difficultItem: {
-        flex: 1,
-        backgroundColor: "#454545",
-        alignItems: "center",
-        justifyContent: "center",
-        margin: 2.0,
-    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+  },
+  buttonOpen: {
+    backgroundColor: '#F194FF',
+  },
+  buttonClose: {
+    backgroundColor: '#2196F3',
+  },
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
+  },
+  modalTitle: {
+    marginBottom: 10,
+    textAlign: 'center',
+    fontWeight: 'bold',
+  }
 });
 
 export default SwipeStyle;
