@@ -5,61 +5,86 @@ import Colors from "../../../features/config/Colors";
 const RateStyle = StyleSheet.create({
     pageContainer: {
         flex: 1,
-        display: "flex",
-        flexDirection: "column",
-        width: "100%"
-
+        width: "100%",
+        backgroundColor: "#0e1220",
+        paddingTop: 16,
+        paddingHorizontal: 12,
     },
-    pageTittle:{
-        color: Colors.primaryTextColor,
-        fontWeight: 600,
-        textAlign: "center",
-        fontSize: 20.0,
-        marginVertical:10.0,
-    },
-    pageDate:{
-        color: Colors.primaryTextColor,
-        fontWeight: 600,
-        textAlign: "center",
-        fontSize: 20,
-
-    },
-    pageTitleRow: {
-        display: "flex",
+    header: {
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
+        marginBottom: 18,
+        width: "100%",
+    },
+    pageTitle: {
+        color: Colors.primaryTextColor,
+        fontWeight: "700",
+        fontSize: 22,
+        flex: 1,
+    },
+    dateButton: {
+        paddingVertical: 8,
+        paddingHorizontal: 12,
+        backgroundColor: "#1e2435",
+        borderRadius: 12,
+    },
+    pageDate: {
+        color: Colors.primaryTextColor,
+        fontSize: 14,
     },
     search: {
-        borderWidth: 1.0,
-        borderColor: "#888",
+        width: "100%",
+        backgroundColor: "#161b2d",
+        color: Colors.primaryTextColor,
+        borderRadius: 14,
+        paddingVertical: 12,
+        paddingHorizontal: 16,
+        fontSize: 16,
+        borderWidth: 1,
+        borderColor: "#2a334b",
+        marginBottom: 16,
+    },
+    list: {
+        width: "100%",
         flex: 1,
     },
-    rateLineEvent:{
-        backgroundColor: "#444"
+    listContainer: {
+        paddingBottom: 32,
+        width: "100%",
     },
-    rateLineOdd:{
-        backgroundColor: "#555"
-    },
-    rateLine:{
-        display: "flex",
+    rateLine: {
+        width: "100%",
         flexDirection: "row",
-        borderBottomColor: "#555",
-        borderBottomWidth: 1.0,
-        margin: 1.0,
+        alignItems: "center",
+        paddingVertical: 14,
+        paddingHorizontal: 16,
+        borderRadius: 16,
+        marginBottom: 10,
     },
-    rateCc:{
+    rateLineEven: {
+        backgroundColor: "#18203a",
+    },
+    rateLineOdd: {
+        backgroundColor: "#1f2948",
+    },
+    rateTxt: {
+        flex: 4,
+        color: Colors.primaryTextColor,
+        fontSize: 15,
+    },
+    rateCc: {
         flex: 1,
+        color: Colors.primaryTextColor,
+        textAlign: "center",
+        fontWeight: "600",
     },
-    rateTxt:{
-        flex: 5,
+    rateRate: {
+        flex: 1.2,
+        color: Colors.successTextColor,
+        textAlign: "right",
+        fontWeight: "700",
     },
-    rateRate:{
-        flex: 1.3,
-        backgroundColor: "#644949a4"
-    },
-
-
 });
 
 export default RateStyle;
